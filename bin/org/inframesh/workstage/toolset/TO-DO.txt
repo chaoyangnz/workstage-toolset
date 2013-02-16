@@ -1,0 +1,28 @@
+1. updatePageComplete() 在其中做页面校验，初始后调用一次，然后每个需要校验的字段的监听事件处理函数中的最后调用一次 
+
+void updatePageComplete() {
+    setPageComplete(false);
+
+    if(==null || =="") {
+        setMessage(null);
+        setErrorMessage("must input!");
+        return;
+    }
+
+    setPageComplete(true);
+    setMessage(null);
+    setErrorMessage(null);
+}
+2. private int propertyName; // fieldName 
+
+3. Code Setting: 注释 
+
+4. testConnection()去掉refresh(), 而是在测试成功的分支中加入 
+
+DatabaseManager?.getInstance().refresh(); 这样点击test时不会有停顿感觉，而且配置也会即时生效 
+
+另外，考虑在点击test时，直接保存preference，代码出发Apply按钮 
+
+5. DatabaseManager的dispose有问题
+
+6. wizard只允许下一页，不允许直接跳过中间步骤而点击完成按钮，未实现

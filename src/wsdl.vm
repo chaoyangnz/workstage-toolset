@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+xmlns:$elemNs="$elemNsURI" name="$serviceName" targetNamespace="$wsdlNsURI" xmlns:tns="$wsdlNsURI">
+  <wsdl:types>
+    <xsd:schema targetNamespace="$wsdlNsURI">
+      <xsd:import namespace="$elemNsURI" schemaLocation="$elemXsdFile"/>
+    </xsd:schema>
+  </wsdl:types>
+ 
+#foreach($message in $messages)
+  <wsdl:message name="$message.name">
+    <wsdl:part name="$message.partName" element="$elemNs:$message.element"/>
+  </wsdl:message>
+#end
+
+  <wsdl:portType name="$portType.name">
+#foreach($operation in $portType.operations)
+    <wsdl:operation name="$operation.name">
+      <wsdl:documentation>$operation.documentation</wsdl:documentation>
+      <wsdl:input message="tns:$operation.inputMessage"/>
+      <wsdl:output message="tns:$operation.outputMessage"/>
+    </wsdl:operation>
+#end
+  </wsdl:portType>
+  
+  <wsdl:binding name="$binding.name" type="tns:$binding.portType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+#foreach($bindingOperation in $binding.bindingOperations)
+    <wsdl:operation name="$bindingOperation.name">
+      <wsdl:documentation>$bindingOperation.documentation</wsdl:documentation>
+      <soap:operation soapAction="$bindingOperation.soapAction"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+#end
+  </wsdl:binding>
+  <wsdl:service name="$serviceName">
+    <wsdl:port name="$serviceName" binding="tns:$binding.name">
+      <soap:address location="http://127.0.0.1"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

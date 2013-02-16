@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gsp="http://gsp.bankcomm.com" xmlns:tns="$typeNsURI"  targetNamespace="$typeNsURI" elementFormDefault="qualified">
+    <import namespace="http://gsp.bankcomm.com" schemaLocation="headerOfSOAP.xsd"/>
+	
+#foreach($stype in $stypes)
+    <simpleType name="$stype.name">
+        <annotation>
+            <documentation>$stype.documentation</documentation>
+        </annotation>
+        <restriction base="$stype.restriction"/>
+    </simpleType>
+    
+#end
+
+#foreach($ltype in $ltypes)
+    <complexType name="$ltype.name">
+        <annotation>
+            <documentation>$ltype.documentation</documentation>
+        </annotation>
+         <sequence>
+#if($ltype.builtin)
+            <element name="$ltype.itemName" type="$ltype.itemType" minOccurs="0" maxOccurs="unbounded"/>
+#else
+            <element name="$ltype.itemName" type="tns:$ltype.itemType" minOccurs="0" maxOccurs="unbounded"/>
+#end
+         </sequence>
+    </complexType>
+    
+#end
+
+#foreach($ctype in $ctypes)
+    <complexType name="$ctype.name">
+        <annotation>
+            <documentation>$ctype.documentation</documentation>
+        </annotation>
+        <sequence>
+#foreach($element in $ctype.elements)
+            <element name="$element.name" type="tns:$element.type" minOccurs="0"/>
+#end
+        </sequence>
+    </complexType>
+    
+#end
+
+#foreach($reqtype in $reqtypes)
+    <complexType name="$reqtype.name">
+        <annotation>
+            <documentation>$reqtype.documentation</documentation>
+        </annotation>
+        <sequence>
+            <element ref="gsp:requestInformation"/>
+#foreach($element in $reqtype.elements)
+            <element name="$element.name" type="tns:$element.type" minOccurs="0"/>
+#end
+        </sequence>
+    </complexType>
+    
+#end  
+
+#foreach($rsptype in $rsptypes)
+    <complexType name="$rsptype.name">
+        <annotation>
+            <documentation>$rsptype.documentation</documentation>
+        </annotation>
+        <sequence>
+            <element ref="gsp:replyInformation"/>
+#foreach($element in $rsptype.elements)
+            <element name="$element.name" type="tns:$element.type" minOccurs="0"/>
+#end
+        </sequence>
+    </complexType>
+    
+#end
+
+#foreach($element in $elements)
+    <element name="$element.name" type="$typeNs:$element.type">
+        <annotation>
+            <documentation>$element.documentation</documentation>
+        </annotation>
+    </element>
+
+#end
+
+</schema>

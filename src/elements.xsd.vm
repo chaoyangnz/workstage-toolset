@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gsp="http://gsp.bankcomm.com"  xmlns:$typeNs="$typeNsURI" xmlns:tns="$elemNsURI"  targetNamespace="$elemNsURI" elementFormDefault="qualified">
+    <import namespace="$typeNsURI" schemaLocation="$typeXsdFile"/>
+	
+#foreach($element in $elements)
+    <element name="$element.name" type="$typeNs:$element.type">
+        <annotation>
+            <documentation>$element.documentation</documentation>
+        </annotation>
+    </element>
+
+#end
+</schema>

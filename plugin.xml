@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            id="org.inframesh.workstage.toolset.ormapper.actionSet"
+            label="O/R Mapper"
+            visible="true">
+         <menu
+               id="ormappermenu"
+               label="O/R Mapper">
+            <groupMarker
+                  name="content">
+            </groupMarker>
+         </menu>
+         <action
+               icon="icons/orm.gif"
+               id="org.inframesh.workstage.toolset.ormapper.generatebeans"
+               label="O/R Mapper Wizard"
+               style="push"
+               toolbarPath="org.eclipse.ui.workbench.file/print.ext">
+            <class
+                  class="org.inframesh.workstage.toolset.ormapper.ui.action.GenerateBeansAction">
+            </class>
+         </action>
+      </actionSet>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="org.inframesh.workstage.toolset.ui.preference.ToolsetPreferencePage"
+            id="ToolsetPreferencePage"
+            name="Workstage Toolset">
+      </page>
+      <page
+            category="ToolsetPreferencePage"
+            class="org.inframesh.workstage.toolset.ui.preference.JDBCPreferencePage"
+            id="JDBCPreferencePage"
+            name="Database Connection">
+      </page>
+      <page
+            category="ToolsetPreferencePage"
+            class="org.inframesh.workstage.toolset.ui.preference.MapTemplatePreferencePage"
+            id="MapTemplatePreferencePage"
+            name="O/R Type Mapping">
+      </page>
+      <page
+            category="ToolsetPreferencePage"
+            class="org.inframesh.workstage.toolset.ui.preference.CodeTemplatePreferencePage"
+            id="CodeTemplatePreferencePage"
+            name="Comment Templates">
+      </page>
+      <page
+            category="ToolsetPreferencePage"
+            class="org.inframesh.workstage.toolset.ui.preference.ValidationPreferencePage"
+            id="ValidationPreferencePage"
+            name="Validation Preference">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="true"
+            id="org.inframesh.workstage.toolset.ormapper.ConverterPopupMenu"
+            nameFilter="*.java"
+            objectClass="org.eclipse.core.resources.IFile">
+         <action
+               class="org.inframesh.workstage.toolset.javaflex.ui.action.GenerateFlexVoAction"
+               enablesFor="+"
+               icon="icons/adobe-flex-logo.jpg"
+               id="GenerateFlexVoAction"
+               label="Generate Flex VO"
+               menubarPath="soadtoolkit"
+               style="push">
+         </action>
+      </objectContribution>
+      <objectContribution
+            id="org.inframesh.workstage.toolset.webservice.wsdl2java"
+            nameFilter="*.wsdl"
+            objectClass="org.eclipse.core.resources.IFile">
+         <action
+               class="org.inframesh.workstage.toolset.webservice.ui.action.Wsdl2JavaAction"
+               enablesFor="1"
+               id="wsdl2java"
+               label="Wsdl2Java(Axis2)"
+               menubarPath="soadtoolkit"
+               style="push">
+         </action>
+      </objectContribution>
+      <objectContribution
+            adaptable="true"
+            id="org.inframesh.workstage.toolset.wstool.java2wsdl"
+            nameFilter="*.java"
+            objectClass="org.eclipse.core.resources.IFile">
+         <action
+               class="org.inframesh.workstage.toolset.ws.ui.WebServiceGeneratorAction"
+               enablesFor="1"
+               icon="icons/wsdl.jpg"
+               id="Java2Wsdl"
+               label="Java2Wsdl"
+               menubarPath="soadtoolkit"
+               style="push">
+         </action>
+      </objectContribution>
+   </extension>
+   <extension
+         id="XMLValidator"
+         name="Spring/Struts XML Configure Validator"
+         point="org.eclipse.wst.validation.validator">
+      <validator>
+      
+         <filter
+               action="add, change"
+               nameFilter="*.xml"
+               objectClass="org.eclipse.core.resources.IFile">
+         </filter>
+         <run
+               async="true"
+               class="org.inframesh.workstage.toolset.xml.validator.XMLValidator"
+               enabled="true"
+               fullBuild="true"
+               incremental="true">
+         </run>
+         <helper
+               class="org.inframesh.workstage.toolset.xml.validator.XMLValidatorHelper">
+         </helper>
+         <projectNature
+               id="org.eclipse.jdt.core.javanature">
+         </projectNature>
+      </validator>
+   </extension>
+   <extension
+         point="org.eclipse.wst.sse.ui.sourcevalidation">
+      <validator
+            class="org.inframesh.workstage.toolset.xml.validator.DelegatingXMLValidator"
+            id="org.inframesh.workstage.toolset.xml.validator.DelegatingXMLValidator"
+            scope="total">
+         <contentTypeIdentifier
+               id="org.eclipse.core.runtime.xml">
+            <partitionType
+                  id="org.eclipse.wst.xml.XML_DEFAULT">
+            </partitionType>
+            <partitionType
+                  id="org.eclipse.wst.sse.ST_DEFAULT">
+            </partitionType>
+         </contentTypeIdentifier>
+      </validator>
+   </extension>
+   <extension point="org.eclipse.jdt.apt.core.annotationProcessorFactory">
+      <factories enableDefault="false">
+      	<factory class="org.inframesh.workstage.toolset.apt.DtoAnnotationProcessorFactory" /> 
+      </factories>
+   </extension>
+   
+   <extension
+       point="org.eclipse.jdt.core.classpathContainerInitializer">
+      <classpathContainerInitializer
+          id="org.inframesh.workstage.toolset.classcontainer.DIR_CLASSPATH_CONTAINER"
+          class="org.inframesh.workstage.toolset.classcontainer.DirectoryClasspathContainerInitializer"/>
+   </extension>
+   
+   <extension 
+       point="org.eclipse.jdt.ui.classpathContainerPage">
+      <classpathContainerPage
+          id="org.inframesh.workstage.toolset.classcontainer.DIR_CLASSPATH_CONTAINER"
+          name="%ContainerName"
+          class="org.inframesh.workstage.toolset.classcontainer.DirectoryClasspathContainerPage"/>
+   </extension>
+   
+   <extension
+         point="org.eclipse.jdt.ui.javaElementFilters">
+         <filter
+               id="org.inframesh.workstage.toolset.classcontainer.ContainerDirFilter"
+               targetId="org.eclipse.jdt.ui.PackageExplorer"
+               enabled="true"
+               name="%ContainerFilterName"
+               description="%ContainerFilterDesc"
+               class="org.inframesh.workstage.toolset.classcontainer.ContainerDirFilter"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.decorators">
+         <decorator
+               adaptable="true"
+               class="org.inframesh.workstage.toolset.classcontainer.LabelDecorator"
+               id="org.inframesh.workstage.toolset.classcontainer.LabelDecorator"
+               label="directory classpath decorator"
+               lightweight="false"
+               location="BOTTOM_RIGHT"
+               state="true">
+		<description>
+			color label
+		</description>
+		<enablement>
+			<objectClass
+				name="org.eclipse.core.runtime.IAdaptable">
+			</objectClass>
+		</enablement>
+	</decorator>	
+   </extension>
+   <extension
+         point="org.eclipse.ui.console.consolePatternMatchListeners">
+      <consolePatternMatchListener
+            class="org.inframesh.workstage.toolset.LogPatternMatchListenerDelegate"
+            flags="MULTILINE"
+            id="workstage-toolset.consolePatternMatchListener1"
+            regex="\[INFO\]">
+         <enablement></enablement>
+      </consolePatternMatchListener>
+   </extension>
+   
+</plugin>
